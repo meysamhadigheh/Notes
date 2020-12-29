@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
@@ -24,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         database = Room
-            .databaseBuilder(getApplicationContext(), NotesDatabase.class, "notes")
-            .allowMainThreadQueries()
-            .build();
+                .databaseBuilder(getApplicationContext(), NotesDatabase.class, "notes")
+                .allowMainThreadQueries()
+                .build();
 
         recyclerView = findViewById(R.id.recycler_view);
         layoutManager = new LinearLayoutManager(this);
@@ -51,4 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.reload();
     }
+
+
 }
