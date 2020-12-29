@@ -64,4 +64,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         notes = MainActivity.database.noteDao().getAll();
         notifyDataSetChanged();
     }
+
+    public Note getItem(int position) {
+        return notes.get(position);
+    }
 }

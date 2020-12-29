@@ -1,17 +1,16 @@
 package edu.harvard.cs50.notes;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.view.View;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -44,6 +43,30 @@ public class MainActivity extends AppCompatActivity {
                 adapter.reload();
             }
         });
+
+        //Swipe to Delete
+        ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction)
+            {
+
+                // Do Stuff
+
+                int id = adapter.getItem(viewHolder.getAdapterPosition()).id;
+                database.noteDao().delete(id);
+                adapter.reload();
+
+
+            }
+
+        });
+        swipeToDismissTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
